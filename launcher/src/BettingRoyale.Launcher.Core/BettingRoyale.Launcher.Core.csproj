@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>BettingRoyale.Launcher.Core</AssemblyName>
+    <RootNamespace>BettingRoyale.Launcher.Core</RootNamespace>
+  </PropertyGroup>
+</Project>

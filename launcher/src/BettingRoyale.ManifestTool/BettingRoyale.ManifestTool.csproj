@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>BettingRoyale.ManifestTool</AssemblyName>
+    <RootNamespace>BettingRoyale.ManifestTool</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="BettingRoyale.Launcher.Core.Tests" />
+    <ProjectReference Include="..\BettingRoyale.Launcher.Core\BettingRoyale.Launcher.Core.csproj" />
+  </ItemGroup>
+</Project>

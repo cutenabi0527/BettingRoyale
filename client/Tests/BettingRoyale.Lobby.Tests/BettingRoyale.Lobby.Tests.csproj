@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <!-- Domain.Tests와 동일: net8을 대상으로 컴파일하되 상위 로컬 런타임에서도 테스트한다. -->
+    <RollForward>LatestMajor</RollForward>
+    <LangVersion>9.0</LangVersion>
+    <DefineConstants>UNITY_EDITOR</DefineConstants>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Core/IGameEvent.cs" Link="Source/IGameEvent.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Online/Lobby/LobbyRoomRules.cs" Link="Source/LobbyRoomRules.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Contracts/LobbyFlowEvents.cs" Link="Source/LobbyFlowEvents.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Network/LobbyRoomAdmission.cs" Link="Source/LobbyRoomAdmission.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Online/Lobby/LobbyBotRoster.cs" Link="Source/LobbyBotRoster.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Profile/ProfilePortraitCatalog.cs" Link="Source/ProfilePortraitCatalog.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Network/LobbyBotWireProtocol.cs" Link="Source/LobbyBotWireProtocol.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Editor/LobbyRoomAdmissionTests.cs" Link="Tests/LobbyRoomAdmissionTests.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Editor/LobbyBotRosterTests.cs" Link="Tests/LobbyBotRosterTests.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Editor/LobbyBotWireProtocolTests.cs" Link="Tests/LobbyBotWireProtocolTests.cs" />
+  </ItemGroup>
+</Project>

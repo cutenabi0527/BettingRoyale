@@ -1,0 +1,19 @@
+{
+  "name": "bettingroyale-mvp",
+  "version": "3.0.0",
+  "private": true,
+  "description": "BettingRoyale MVP browser mockup: public/private rooms, bots, solo/team PvP, per-round base money with carry-over cap, probabilistic anvil enhancement, trinket gacha, golden goblin bounty, storm, supply drops, pit falls, and a 3-stage tiebreak",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test-rooms.mjs && node test-roulette.mjs && node test-movement.mjs && node test-charity.mjs && node test-stations.mjs && node test-storm.mjs && node test-terrain.mjs && node test-team.mjs && node test-flow.mjs",
+    "test:rooms": "node test-rooms.mjs",
+    "test:roulette": "node test-roulette.mjs",
+    "test:movement": "node test-movement.mjs",
+    "test:charity": "node test-charity.mjs",
+    "test:stations": "node test-stations.mjs",
+    "test:storm": "node test-storm.mjs",
+    "test:terrain": "node test-terrain.mjs",
+    "test:team": "node test-team.mjs",
+    "test:flow": "node test-flow.mjs"
+  }
+}

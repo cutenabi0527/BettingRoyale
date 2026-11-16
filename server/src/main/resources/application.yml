@@ -1,0 +1,57 @@
+server:
+  address: 127.0.0.1
+  port: 8080
+
+spring:
+  datasource:
+    # 배포(EC2)는 compose 가 env 로 주입한다 (infra/docker-compose.yml + infra/.env — D-036).
+    # 아래 기본값은 로컬 개발용 — 로컬 MySQL 8 에 bettingroyal 데이터베이스가 있어야 한다 (server/README.md).
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/bettingroyal}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: validate # 스키마는 Flyway migration 만 만든다 — Hibernate 자동 DDL 금지
+    open-in-view: false
+
+auth:
+  jwt:
+    # 서명 키는 배포에서 반드시 env(JWT_SECRET)로 주입한다 — 기본값은 로컬 개발 전용이다 (D-036).
+    # infra/docker-compose.yml 이 JWT_SECRET 없이는 기동을 거부하므로 배포에 이 기본값이 실릴 수 없다.
+    secret: ${JWT_SECRET:local-dev-only-jwt-secret-do-not-use-in-prod!}
+    # 만료 12시간 — ⚠️ 임시값 (docs/specs/backend-engineering/S-BE-JNTJTE.md). refresh token 없음(O-012).
+    expires-in-seconds: 43200
+
+# 순위별 메달 지급 정책 — 수치는 코드가 아니라 여기서만 바꾼다 (docs/server/api.md 5절).
+# ⚠️ 아래 값은 전부 임시다 (docs/specs/backend-engineering/S-BE-ZK5DKZ.md). 기획 확정 시 갱신한다.
+# 동점(tie)·중도 이탈(leaver)·봇(bot)·방 유형(room-type) 정책은 TBD —
+# 값이 정해지면 MedalPolicy 에 필드로 승격하고 여기에 키를 추가한다.
+medal:
+  rank-rewards:
+    1: 100
+    2: 60
+    3: 40
+    4: 20
+  default-reward: 10 # rank-rewards 에 없는 순위(5위 이하)
+
+# 계정 외형("옷장") 정책 — 수치·목록은 코드가 아니라 여기서만 바꾼다 (docs/server/api.md 8절).
+wardrobe:
+  # 프로필이 외형 프리셋을 저장할 수 있는 무기 유형. 응답의 weaponTypes 가 이 목록 그대로다.
+  # ⚠️ 지금 유효한 무기는 검·활 2종뿐이다 — S-GD-8DM55S 가 "Sword / Bow 2종으로 시작하며 Mace는
+  #    확장 지점으로만 예약한다"를 확정했고 클라이언트 WeaponType.Mace 에는 구현이 없다.
+  #    무기가 늘면 여기에만 추가한다. 스키마도 코드도 바뀌지 않는다 (D-BE-Z2HMR6).
+  weapon-types:
+    - Sword
+    - Bow
+  # 아이템 ID 상한. wardrobe_items.item_id / account_wardrobe_preset_items.item_id 열 길이와 같아야 한다.
+  max-item-id-length: 48
+
+# 전용 게임 서버 방 배정 (docs/server/api.md 10절, S15P21A606-321).
+# 키는 서버 측 시크릿이라 env(GAME_SERVER_KEY)로만 받는다 — 비어 있으면 배정 기능이 꺼진다(D-036).
+# 동시 방 상한은 정민호 2026-09-25 확정 시작값 1 이다(S-ONL-XBB2VB). 실측 후 여기서만 바꾼다.
+game-server:
+  key: ${GAME_SERVER_KEY:}
+  max-rooms: ${GAME_SERVER_MAX_ROOMS:1}
+  server-timeout-seconds: 15
+  ticket-idle-timeout-seconds: 20
+  finished-retention-seconds: 120

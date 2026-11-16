@@ -1,0 +1,220 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    순수 도메인 테스트 프로젝트 (D-058).
+
+    이 프로젝트는 Unity 프로젝트 밖(client/Tests/)에 있다. Unity 는 Assets/ 밖을 컴파일하지
+    않으므로 이 파일들은 게임 빌드에 전혀 영향을 주지 않고, .asmdef 를 만들지 않아도 된다.
+
+    도메인 코드는 아래 <Compile Include> 로 **링크**해서 가져온다. 복사본이 아니다 —
+    원본은 Assets/BettingRoyale/Scripts/ 안에 하나뿐이다.
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <!--
+      Unity 6 은 C# 9 까지만 컴파일한다. 여기서 같은 제한을 걸어두면
+      Unity 가 못 읽는 문법이 도메인 코드에 섞이는 것을 이 프로젝트가 먼저 잡는다.
+    -->
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <!--
+      net8(Unity 와 맞춘 타겟)이지만 상위 런타임에서도 실행되게 한다. 개발 PC 에 .NET 8
+      런타임이 없고 10 만 있으면 testhost 가 "You must install or update .NET" 으로 죽는다.
+      data/tools 의 실행 프로젝트가 같은 이유로 이미 이 설정을 쓴다.
+    -->
+    <RollForward>LatestMajor</RollForward>
+    <AssemblyName>BettingRoyale.Domain.Tests</AssemblyName>
+    <RootNamespace>BettingRoyale.Domain.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      도메인 원본 링크 참조.
+
+      ⚠️ Scripts/Data/**  로 통째로 잡지 않는다. 폴더를 하나씩 나열한다.
+      Data 레이어 전체가 UnityEngine 을 안 쓴다는 보장이 없기 때문이다 — 실제로
+      `S15P21A606-20` 브랜치의 Scripts/Data/Combat/CombatCommands.cs 는 1행이 `using UnityEngine;` 이다.
+      글로브로 두면 그 브랜치가 dev 에 병합되는 순간 이 테스트가 컴파일되지 않는다.
+
+      새 도메인 폴더를 만들면 여기에 한 줄 추가한다. 빠뜨리면 그 폴더는 테스트되지 않으므로,
+      추가 후 테스트 수가 늘었는지 확인한다.
+    -->
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Audio/**/*.cs">
+      <Link>Domain/Audio/%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Economy\**\*.cs">
+      <Link>Domain\Economy\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Blessing\**\*.cs">
+      <Link>Domain\Blessing\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Chest\**\*.cs">
+      <Link>Domain\Chest\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Common\**\*.cs">
+      <Link>Domain\Common\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Contracts\**\*.cs">
+      <Link>Domain\Contracts\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\LocalPlay\**\*.cs">
+      <Link>Domain\LocalPlay\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Online\**\*.cs">
+      <Link>Domain\Online\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Scenes\**\*.cs">
+      <Link>Domain\Scenes\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Equipment\**\*.cs">
+      <Link>Domain\Equipment\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Throwing\**\*.cs">
+      <Link>Domain\Throwing\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Shop\**\*.cs">
+      <Link>Domain\Shop\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Preparation\**\*.cs">
+      <Link>Domain\Preparation\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Roulette\**\*.cs">
+      <Link>Domain\Roulette\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Upgrade\**\*.cs">
+      <Link>Domain\Upgrade\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Training\**\*.cs">
+      <Link>Domain\Training\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <!-- 계정 외형 카탈로그·초안·칸 번호 변환 (S-CLI-CQETNV). 문자열 ID ↔ 칸 번호 왕복을 여기서 검증한다. -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Profile\**\*.cs">
+      <Link>Domain\Profile\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <!-- 엑셀 밸런스 카탈로그(S-CLI-QXRTWX). UnityEngine 없이 표 → 카탈로그 변환과 대역 동등성을 검증한다. -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Balance\**\*.cs">
+      <Link>Domain\Balance\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\BalanceValueOwnership.cs">
+      <Link>Domain\Combat\BalanceValueOwnership.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\WeaponType.cs">
+      <Link>Domain\Combat\WeaponType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatSideRules.cs">
+      <Link>Domain\Combat\CombatSideRules.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatantId.cs">
+      <Link>Domain\Combat\CombatantId.cs</Link>
+    </Compile>
+    <!--
+      무기 수치 계약과 그 정본. 둘 다 UnityEngine 을 참조하지 않으므로 파일 단위로 링크한다.
+      정본(WeaponStats)을 여기서 검증하는 것이 요점이다 — 값이 프리팹·씬에 흩어져 있던 동안에는
+      어떤 자동 검사도 수치를 볼 수 없었다 (S15P21A606-200).
+    -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatConfigs.cs">
+      <Link>Domain\Combat\CombatConfigs.cs</Link>
+    </Compile>
+    <!--
+      ⚠️ WeaponCatalog.cs / WeaponTag.cs 는 여기 넣지 않는다. Data.Combat.WeaponTag 와
+      Data.Blessing.WeaponTag 가 이름이 겹쳐서(D-065), 끌어오는 순간 두 네임스페이스를 함께 쓰는
+      기존 테스트 20여 곳이 CS0104 로 깨진다. 무기 태그 경계는 Unity EditMode 쪽에서 검증한다.
+    -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\WeaponStats.cs">
+      <Link>Domain\Combat\WeaponStats.cs</Link>
+    </Compile>
+    <!--
+      이동·대시 실측 조정 레이어. WeaponStats 와 같은 이유로 여기서 검증한다 — 조정이 비어 있을 때
+      아무 것도 하지 않는다는 것이 "제품 동작 변화 0" 의 근거이므로 사람 눈이 아니라 테스트가 지켜야 한다
+      (S15P21A606-191).
+    -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatTuning.cs">
+      <Link>Domain\Combat\CombatTuning.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatDamageSource.cs">
+      <Link>Domain\Combat\CombatDamageSource.cs</Link>
+    </Compile>
+    <!--
+      자기장 설정 스키마(S-CLI-6V2XAP). 반경을 면적비에서 도출하는 순수 계산이라
+      UnityEngine 없이 도메인 테스트가 그대로 검증한다.
+    -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatZoneSettings.cs">
+      <Link>Domain\Combat\CombatZoneSettings.cs</Link>
+    </Compile>
+    <!--
+      정산 경계 계약. UnityEngine 을 참조하지 않으므로 파일 단위로 링크한다
+      (Data/Combat 폴더 전체는 UnityEngine 의존이 있어 글로브로 잡지 않는다).
+    -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatRoundResults.cs">
+      <Link>Domain\Combat\CombatRoundResults.cs</Link>
+    </Compile>
+    <!--
+      제품 Host 관측 런타임. UnityEngine 을 참조하지 않으므로 씬 없이 정산 경로를 검증한다.
+    -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatRoundObservation.cs">
+      <Link>Domain\Combat\CombatRoundObservation.cs</Link>
+    </Compile>
+    <!--
+      라운드 사실 기록기의 구현 정본. Gameplay 의 CombatRoundResultState 는 이 원장을 감싼
+      이벤트 어댑터일 뿐이라, 제품 Host 정산 경로를 **가짜 대역 없이** 여기서 검증한다.
+    -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatRoundFactLedger.cs">
+      <Link>Domain\Combat\CombatRoundFactLedger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\IDamageable.cs">
+      <Link>Domain\Combat\IDamageable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\ICombatDamageResolver.cs">
+      <Link>Domain\Combat\ICombatDamageResolver.cs</Link>
+    </Compile>
+    <!-- 소모품 효과를 HUD 효과 칸 모델로 옮기는 변환(Data/Shop/ConsumableHudEffects)이 표시 모델을 쓴다. System 만 참조한다. -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\HudStatusEffects.cs">
+      <Link>Domain\Combat\HudStatusEffects.cs</Link>
+    </Compile>
+
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Combat\CombatStatsSnapshot.cs" />
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Remote\**\*.cs" />
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Data\Dto\RemoteManifestDto.cs" />
+
+    <!--
+      Core 에서는 이 한 파일만 가져온다.
+      Scripts/Data/Contracts/ 의 이벤트가 IGameEvent 를 구현하기 때문이다.
+      Core/EventBus.cs 는 UnityEngine 을 참조하므로 여기서 컴파일할 수 없다 — 그래서 마커만 분리해 뒀다.
+      Core 전체를 글로브로 끌어오지 않는다. 끌어오면 UnityEngine 의존이 조용히 섞여 들어온다.
+    -->
+    <Compile Include="..\..\BettingRoyale\Assets\BettingRoyale\Scripts\Core\IGameEvent.cs">
+      <Link>Domain\Core\IGameEvent.cs</Link>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      NUnit 3.x 를 쓴다. Unity Test Framework 도 NUnit 3 이라, O-011 이 "asmdef 도입" 으로
+      닫히면 이 테스트 파일을 Assets/ 안으로 옮기는 것만으로 Unity Test Runner 에서 돈다.
+    -->
+    <!--
+      Scripts/Data/Remote/ 의 gamedata.bin 스키마가 MessagePack 특성을 쓴다 (D-CLI-ETYTBX).
+      Unity 쪽은 NuGetForUnity 가 Assets/Packages/ 에 같은 3.1.8 을 넣는다 — 버전을 맞춘다.
+    -->
+    <PackageReference Include="MessagePack" Version="3.1.8" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <!-- Pure world VFX transport contracts; Unity and Fusion adapters are tested separately. -->
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Combat/StatusVfxKind.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Combat/StatusVfxState.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Combat/ICombatWorldVfxPresentationDriver.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Combat/StatusVfxWireFrame.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Combat/StatusVfxWireCodec.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Combat/StatusVfxChunkAssembler.cs" />
+    <Compile Include="../../BettingRoyale/Assets/BettingRoyale/Scripts/Data/Combat/StatusVfxWireReceiver.cs" />
+  </ItemGroup>
+
+</Project>
