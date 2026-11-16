@@ -4,7 +4,19 @@
 
 BettingRoyale은 친구와 방을 만들어 플레이하는 Unity 멀티플레이 파티 게임입니다. 준비 단계에서 룰렛과 장비 강화에 재화를 배분하고, 전투와 라운드 정산을 거쳐 누적 순위를 결정합니다. 게임 재화는 가상 재화입니다.
 
-원본 이력에서 확인한 개발 기간은 2026년 8월 24일~9월 28일입니다. 이 저장소는 팀 결과물의 선별 스냅샷입니다. 개인 담당 영역과 기여 증빙은 작성자와 확인한 뒤 기재합니다.
+원본 이력에서 확인한 개발 기간은 2026년 8월 24일~9월 28일입니다. 이 저장소는 팀 결과물의 선별 스냅샷입니다.
+
+## My Contributions / Map & Level Design
+
+저는 Combat_02 전장의 기획, 다섯 구역과 이동 동선 설계, Unity 오브젝트 배치와 환경 구성을 주도했습니다. Blender와 AI 보조 도구를 활용한 맵 에셋 제작·검토를 맡았고, 일부 디버깅과 최적화는 팀원과 함께 진행했습니다.
+
+| 결과물 | 내용 |
+| --- | --- |
+| [Map_Combat_02_Portfolio.unity](portfolio/Combat02Portfolio/Assets/Scenes/Map_Combat_02_Portfolio.unity) | 원본 전장을 기반으로 재구성한 Graybox 씬입니다. 다섯 구역, 바닥·벽 충돌, 중앙 마커, 스폰과 상자 앵커의 배치를 확인할 수 있습니다. |
+| [SM_Fortress_InnerWallModule.fbx](portfolio/Combat02Portfolio/Assets/Models/SM_Fortress_InnerWallModule.fbx) · [RoyalPier.fbx](portfolio/Combat02Portfolio/Assets/Models/RoyalPier.fbx) | 프로젝트에서 Blender로 제작한 성곽 내벽 모듈과 준비 구역의 기둥 모델입니다. |
+| [AlignMapCenter.cs](portfolio/Combat02Portfolio/Assets/Editor/AlignMapCenter.cs) | 맵 루트를 중앙 마커에 맞추는 데 사용한 Unity Editor 도구입니다. |
+
+[공개용 Unity 프로젝트 README](portfolio/Combat02Portfolio/README.md)에 프로젝트를 여는 방법과 원본 비교 결과를 정리했습니다. 씬의 구조·참조 정적 검사는 통과했고 두 FBX는 Blender에서 열어 확인했습니다. Unity Editor 실행은 라이선스 오류로 중단돼 씬 로드와 Play 모드는 검증하지 못했습니다.
 
 | 구성 | 확인할 수 있는 내용 |
 | --- | --- |
@@ -38,6 +50,6 @@ dotnet test client/Tests/BettingRoyale.Lobby.Tests/BettingRoyale.Lobby.Tests.csp
 dotnet test launcher/tests/BettingRoyale.Launcher.Core.Tests/BettingRoyale.Launcher.Core.Tests.csproj
 ```
 
-운영 DB 덤프, 배포·접속 문서, 외부 SDK·에셋 원본, 운영용 서비스 식별 정보, 그래픽·음원·폰트 원본, 아카이브와 산출물은 이 후보 범위에서 제외했습니다. 일부 서비스 호스트는 테스트용 도메인으로 바꿨습니다. 목업은 시스템 글꼴을 사용합니다.
+운영 DB 덤프, 배포·접속 문서, 운영용 서비스 식별 정보, 아카이브와 빌드 산출물은 제외했습니다. 외부 SDK와 외부 모델·텍스처·음원·폰트 원본도 제외했습니다. 포트폴리오에는 자체 제작 모델 2개와 공개용 Combat_02 Graybox 맵이 포함됩니다. 일부 서비스 호스트는 테스트용 도메인으로 바꿨습니다. 목업은 시스템 글꼴을 사용합니다.
 
 외부 의존성 출처와 조건은 [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)에 정리했습니다.
